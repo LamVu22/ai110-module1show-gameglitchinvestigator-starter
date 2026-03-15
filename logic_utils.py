@@ -58,9 +58,9 @@ def update_score(current_score: int, outcome: str, attempt_number: int):
             points = 10
         return current_score + points
 
+    # FIX: wrong-guess penalty was inconsistent — "Too High" gave +5 on even attempts
+    # but -5 on odd, while "Too Low" always gave -5. Now both deduct -5 consistently.
     if outcome == "Too High":
-        if attempt_number % 2 == 0:
-            return current_score + 5
         return current_score - 5
 
     if outcome == "Too Low":

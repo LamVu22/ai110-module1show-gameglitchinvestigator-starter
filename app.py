@@ -31,8 +31,9 @@ st.sidebar.caption(f"Attempts allowed: {attempt_limit}")
 if "secret" not in st.session_state:
     st.session_state.secret = random.randint(low, high)
 
+# FIX: attempts initially started at 1 but New Game reset to 0, causing an off-by-one
 if "attempts" not in st.session_state:
-    st.session_state.attempts = 1
+    st.session_state.attempts = 0
 
 if "score" not in st.session_state:
     st.session_state.score = 0
@@ -45,8 +46,9 @@ if "history" not in st.session_state:
 
 st.subheader("Make a guess")
 
+# FIX: info text was hardcoded to "1 and 100" regardless of difficulty
 st.info(
-    f"Guess a number between 1 and 100. "
+    f"Guess a number between {low} and {high}. "
     f"Attempts left: {attempt_limit - st.session_state.attempts}"
 )
 
@@ -70,9 +72,13 @@ with col2:
 with col3:
     show_hint = st.checkbox("Show hint", value=True)
 
+# FIX: New Game now resets all session state (history, score, status) and uses difficulty range
 if new_game:
     st.session_state.attempts = 0
-    st.session_state.secret = random.randint(1, 100)
+    st.session_state.secret = random.randint(low, high)
+    st.session_state.history = []
+    st.session_state.score = 0
+    st.session_state.status = "playing"
     st.success("New game started.")
     st.rerun()
 
