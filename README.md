@@ -25,9 +25,19 @@ It wrote the code, ran away, and now the game is unplayable.
 
 ## 📝 Document Your Experience
 
-- [ ] Describe the game's purpose.
-- [ ] Detail which bugs you found.
-- [ ] Explain what fixes you applied.
+- [x] **Game purpose:** A Streamlit number guessing game where the player picks a difficulty, guesses a secret number within a limited number of attempts, and receives directional hints ("Go HIGHER" / "Go LOWER") after each guess.
+
+- [x] **Bugs found:**
+  1. **Swapped hints** — `check_guess` returned "Go HIGHER!" when the guess was too high and "Go LOWER!" when too low, sending the player the wrong way.
+  2. **String comparison on even attempts** — On even-numbered attempts, the secret was cast to `str`, breaking integer comparison. For example, `5 < 42` is correct, but `"5" > "42"` in string ordering, giving wrong outcomes.
+  3. **Hard mode easier than Normal** — Hard mode used range 1–50 while Normal used 1–100, making Hard mode objectively easier.
+
+- [x] **Fixes applied:**
+  1. Swapped the hint message strings in `check_guess` so "Too High" → "Go LOWER!" and "Too Low" → "Go HIGHER!"
+  2. Removed the `if attempts % 2 == 0` string casting block in `app.py` so the secret is always compared as an integer.
+  3. Changed Hard mode's range from 1–50 to 1–200 in `get_range_for_difficulty`.
+  4. Refactored all game logic from `app.py` into `logic_utils.py` for separation of concerns.
+  5. Fixed and expanded `tests/test_game_logic.py` from 3 broken starter tests to 7 passing tests.
 
 ## 📸 Demo
 

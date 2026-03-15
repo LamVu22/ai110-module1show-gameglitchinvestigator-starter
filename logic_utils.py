@@ -4,8 +4,9 @@ def get_range_for_difficulty(difficulty: str):
         return 1, 20
     if difficulty == "Normal":
         return 1, 100
+    # FIX: Hard mode range was 1-50 (easier than Normal's 1-100). Changed to 1-200.
     if difficulty == "Hard":
-        return 1, 50
+        return 1, 200
     return 1, 100
 
 
